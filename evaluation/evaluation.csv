@@ -1,0 +1,13 @@
+question,expected_answer,retrieved_answer,source,correct
+"What is the main topic of the document?","[Depends on uploaded PDF]","","[source PDF]",""
+"What year was the company founded?","[Depends on uploaded PDF]","","[source PDF]",""
+"What is the total revenue mentioned in the report?","[Depends on uploaded PDF]","","[source PDF]",""
+"Who is the CEO of the company?","[Depends on uploaded PDF]","","[source PDF]",""
+"What are the key risk factors mentioned?","[Depends on uploaded PDF]","","[source PDF]",""
+"What was the revenue in the previous year?","[Depends on uploaded PDF — follow-up question testing conversation context]","","[source PDF]",""
+"How does that compare to this year?","[Depends on uploaded PDF — requires conversation history to resolve 'that']","","[source PDF]",""
+"What is the capital of France?","insufficient information","","N/A",""
+"What is the stock price prediction for next year?","insufficient information","","N/A",""
+"Tell me about climate change effects on agriculture.","insufficient information","","N/A",""
+"What specific recommendations does the document make?","[Depends on uploaded PDF]","","[source PDF]",""
+"Summarize the findings on page 5.","[Depends on uploaded PDF — tests page-specific retrieval]","","[source PDF]",""
