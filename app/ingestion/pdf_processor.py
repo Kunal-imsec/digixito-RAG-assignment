@@ -28,6 +28,8 @@ class TextChunk:
     text: str
     file_name: str
     page_number: int
+    conversation_id: str
+    doc_id: str
 
 
 class PDFProcessingError(Exception):
@@ -46,12 +48,13 @@ class PDFProcessor:
         self.chunk_overlap = chunk_overlap or settings.CHUNK_OVERLAP
 
     @timed("pdf_processing")
-    def process(self, file_path: str, file_name: str) -> list[TextChunk]:
+    def process(self, file_path: str, file_name: str, conversation_id: str) -> list[TextChunk]:
         """Full pipeline: extract → clean → chunk a PDF file.
 
         Args:
             file_path: Path to the PDF file on disk.
             file_name: Original uploaded file name (used in metadata).
+            conversation_id: The conversation ID for this upload.
 
         Returns:
             List of TextChunk objects ready for embedding.
@@ -60,11 +63,12 @@ class PDFProcessor:
             PDFProcessingError: If the PDF is invalid, empty, or has no text.
         """
         logger.info(
-            "Processing PDF file=%s path=%s chunk_size=%d overlap=%d",
+            "Processing PDF file=%s path=%s chunk_size=%d overlap=%d conversation_id=%s",
             file_name,
             file_path,
             self.chunk_size,
             self.chunk_overlap,
+            conversation_id,
         )
 
         # 1. Extract raw text per page
@@ -91,7 +95,8 @@ class PDFProcessor:
         )
 
         # 3. Chunk the cleaned text
-        chunks = self._chunk_pages(cleaned_pages, file_name)
+        doc_id = uuid.uuid4().hex
+        chunks = self._chunk_pages(cleaned_pages, file_name, conversation_id, doc_id)
 
         logger.info(
             "Created %d chunks from file=%s",
@@ -162,7 +167,7 @@ class PDFProcessor:
         return text.strip()
 
     def _chunk_pages(
-        self, pages: list[tuple[int, str]], file_name: str
+        self, pages: list[tuple[int, str]], file_name: str, conversation_id: str, doc_id: str
     ) -> list[TextChunk]:
         """Split cleaned page texts into overlapping chunks.
 
@@ -176,32 +181,38 @@ class PDFProcessor:
             if not page_text:
                 continue
 
-            page_chunks = self._split_text(page_text, page_num, file_name)
+            page_chunks = self._split_text(page_text, page_num, file_name, conversation_id, doc_id)
             chunks.extend(page_chunks)
 
         return chunks
 
     def _split_text(
-        self, text: str, page_number: int, file_name: str
+        self, text: str, page_number: int, file_name: str, conversation_id: str, doc_id: str
     ) -> list[TextChunk]:
         """Split a single page's text into fixed-size overlapping chunks."""
         chunks: list[TextChunk] = []
         start = 0
         text_len = len(text)
+        chunk_index = 0
 
         while start < text_len:
             end = min(start + self.chunk_size, text_len)
             chunk_text = text[start:end].strip()
 
             if chunk_text:
+                # Generate deterministic chunk_id: doc_id_page_N_chunk_M
+                chunk_id = f"{doc_id}_page_{page_number}_chunk_{chunk_index}"
                 chunks.append(
                     TextChunk(
-                        chunk_id=uuid.uuid4().hex,
+                        chunk_id=chunk_id,
                         text=chunk_text,
                         file_name=file_name,
                         page_number=page_number,
+                        conversation_id=conversation_id,
+                        doc_id=doc_id,
                     )
                 )
+                chunk_index += 1
 
             # Move forward by (chunk_size - overlap)
             step = self.chunk_size - self.chunk_overlap

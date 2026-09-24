@@ -1,0 +1,21 @@
+test_id,question,expected_answer,retrieved_answer,source,correct,test_type,input_file
+TC-01,What is the main topic of the document?,"The document describes Acme Systems, its engineering workflow, document processing operations, and onboarding practices.","The document is an engineering handbook for Acme Systems, covering topics such as the company overview, engineering team, product metrics, security, hiring, and contact information.","rag_test_document.pdf, page 1,2",yes,RAG evaluation,rag_test_document.pdf
+TC-02,What year was the company founded?,2018,Acme Systems was founded in 2018 .,"rag_test_document.pdf, page 1",yes,RAG evaluation,rag_test_document.pdf
+TC-03,What is the total revenue mentioned in the report?,insufficient information,insufficient information,rag_test_document.pdf,yes,RAG evaluation,rag_test_document.pdf
+TC-04,Who is the CEO of the company?,insufficient information,insufficient information,rag_test_document.pdf,yes,RAG evaluation,rag_test_document.pdf
+TC-05,What are the key risk factors mentioned?,insufficient information,insufficient information,rag_test_document.pdf,yes,RAG evaluation,rag_test_document.pdf
+TC-06,What was the revenue in the previous year?,insufficient information,insufficient information,rag_test_document.pdf,yes,RAG evaluation,rag_test_document.pdf
+TC-07,How does that compare to this year?,insufficient information,insufficient information,rag_test_document.pdf,yes,RAG evaluation,rag_test_document.pdf
+TC-08,What is the capital of France?,insufficient information,insufficient information,rag_test_document.pdf,yes,RAG evaluation,rag_test_document.pdf
+TC-09,What is the stock price prediction for next year?,insufficient information,insufficient information,rag_test_document.pdf,yes,RAG evaluation,rag_test_document.pdf
+TC-10,Tell me about climate change effects on agriculture.,insufficient information,insufficient information,rag_test_document.pdf,yes,RAG evaluation,rag_test_document.pdf
+TC-11,What specific recommendations does the document make?,insufficient information,insufficient information,rag_test_document.pdf,yes,RAG evaluation,rag_test_document.pdf
+TC-12,Summarize the findings on page 5.,insufficient information,insufficient information,rag_test_document.pdf,yes,RAG evaluation,rag_test_document.pdf
+TC-13,Which technology stack does the engineering team use?,"Python, FastAPI, PostgreSQL, and containerized workflows.","The engineering team uses Python, FastAPI, PostgreSQL, and containerized development workflows.","rag_test_document.pdf, page 1",yes,RAG evaluation,rag_test_document.pdf
+TC-14,Which team owns API development and document ingestion?,The backend team.,The backend team owns API development and document ingestion.,"rag_test_document.pdf, page 1",yes,RAG evaluation,rag_test_document.pdf
+TC-15,How many documents were processed in 2025?,1.2 million documents.,"In 2025, the document processing service handled 1.2 million documents.","rag_test_document.pdf, page 1",yes,RAG evaluation,rag_test_document.pdf
+TC-16,What was the average document processing time in 2025?,2.4 seconds per document.,The average document processing time in 2025 was 2.4 seconds per document.,"rag_test_document.pdf, page 1",yes,RAG evaluation,rag_test_document.pdf
+TC-17,How many engineers were hired in 2025?,14 engineers.,The company hired 14 engineers in 2025.,"rag_test_document.pdf, page 2",yes,RAG evaluation,rag_test_document.pdf
+TC-18,How long is the onboarding program?,Four weeks.,The onboarding program lasts four weeks.,"rag_test_document.pdf, page 2",yes,RAG evaluation,rag_test_document.pdf
+TC-19,Upload a non-PDF file such as not_a_pdf.txt. Should it be accepted?,No. The system should reject non-PDF files with a clear validation error.,upload failed,,yes,Negative/file validation,not_a_pdf.txt
+TC-20,Upload malformed.pdf. What should happen?,The system should reject the corrupt/invalid PDF gracefully with a clear error; it should not crash.,Failed to open PDF 'malformed.pdf,,yes,Negative/file validation,malformed.pdf

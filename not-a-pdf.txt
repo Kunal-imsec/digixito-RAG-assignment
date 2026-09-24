@@ -1,0 +1,16 @@
+1. converting string number in integer
+ if s="9834" then digit=s.charAt(i) - '0';
+
+
+2.2^31
+Integer.MAX_VALUE : Integer.MIN_VALUE;
+
+3. if there are two many if else so try wrap in ? : 
+
+
+4. freq array 
+ // Count frequency of each task
+        int[] freq = new int[26];
+        for (char task : tasks) {
+            freq[task - 'A']++;
+        }

@@ -34,7 +34,7 @@ app = FastAPI(
     title="AI Document Intelligence System",
     description=(
         "RAG-based document question-answering system with PDF ingestion, "
-        "semantic retrieval, Gemini-powered answers, streaming, "
+        "semantic retrieval, Groq-powered answers, streaming, "
         "conversation history, and observability."
     ),
     version="1.0.0",
@@ -133,7 +133,7 @@ async def startup_event():
     """Log application startup information."""
     logger.info("=" * 60)
     logger.info("AI Document Intelligence System starting up")
-    logger.info("Gemini model: %s", settings.GEMINI_MODEL)
+    logger.info("Groq model: %s", settings.GROQ_MODEL)
     logger.info("Embedding model: %s", settings.EMBEDDING_MODEL)
     logger.info("Chunk size: %d, Overlap: %d", settings.CHUNK_SIZE, settings.CHUNK_OVERLAP)
     logger.info("Top-K: %d", settings.TOP_K)

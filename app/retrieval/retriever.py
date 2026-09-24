@@ -30,12 +30,14 @@ class Retriever:
     def retrieve(
         self,
         query: str,
+        conversation_id: str,
         top_k: int | None = None,
     ) -> list[RetrievedChunk]:
         """Retrieve the most relevant chunks for a query.
 
         Args:
             query: User's question text.
+            conversation_id: The conversation ID to filter results by.
             top_k: Number of chunks to retrieve (defaults to settings.TOP_K).
 
         Returns:
@@ -44,17 +46,19 @@ class Retriever:
         k = top_k or settings.TOP_K
 
         logger.info(
-            "Retrieving top-%d chunks for query='%s'",
+            "Retrieving top-%d chunks for query='%s' conversation_id=%s",
             k,
             query[:80] + "..." if len(query) > 80 else query,
+            conversation_id,
         )
 
         # 1. Embed the query
         query_embedding = self.embedding_service.encode_query(query)
 
-        # 2. Search ChromaDB
+        # 2. Search ChromaDB with conversation filter
         chunks = self.chroma_store.query(
             query_embedding=query_embedding,
+            conversation_id=conversation_id,
             top_k=k,
         )
 

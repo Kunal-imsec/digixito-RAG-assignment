@@ -13,7 +13,7 @@ import os
 import time
 from pathlib import Path
 
-from fastapi import APIRouter, File, HTTPException, Request, UploadFile
+from fastapi import APIRouter, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from starlette.responses import StreamingResponse
@@ -22,7 +22,7 @@ from app.config import settings
 from app.conversation.history import ConversationHistory, ConversationError
 from app.embeddings.embedding_service import EmbeddingService
 from app.ingestion.pdf_processor import PDFProcessor, PDFProcessingError
-from app.llm.gemini import GeminiClient, GeminiError
+from app.llm.groq import GroqClient, GroqError
 from app.llm.prompts import build_grounded_prompt
 from app.observability.metrics import get_request_id, metrics, timed
 from app.retrieval.retriever import Retriever
@@ -40,7 +40,7 @@ _pdf_processor = PDFProcessor()
 _embedding_service = EmbeddingService()
 _chroma_store = ChromaStore()
 _retriever = Retriever(_embedding_service, _chroma_store)
-_gemini_client = GeminiClient()
+_groq_client = GroqClient()
 _conversation_history = ConversationHistory()
 
 
@@ -48,10 +48,20 @@ _conversation_history = ConversationHistory()
 # Request / Response models
 # ---------------------------------------------------------------------------
 
+class CreateConversationResponse(BaseModel):
+    """Response body for the /conversations endpoint."""
+    conversation_id: str
+
+
 class AskRequest(BaseModel):
     """Request body for the /ask endpoint."""
     question: str
-    conversation_id: str | None = None
+    conversation_id: str
+
+
+class UploadRequest(BaseModel):
+    """Request body for the /upload endpoint."""
+    conversation_id: str
 
 
 class UploadResponse(BaseModel):
@@ -60,6 +70,27 @@ class UploadResponse(BaseModel):
     file_name: str
     num_pages: int
     num_chunks: int
+    conversation_id: str
+
+
+# ---------------------------------------------------------------------------
+# POST /conversations
+# ---------------------------------------------------------------------------
+
+@router.post("/conversations", response_model=CreateConversationResponse)
+async def create_conversation():
+    """Create a new conversation and return its ID."""
+    request_id = get_request_id()
+    
+    conversation_id = _conversation_history.create_conversation()
+    
+    logger.info(
+        "Created new conversation=%s request_id=%s",
+        conversation_id,
+        request_id,
+    )
+    
+    return CreateConversationResponse(conversation_id=conversation_id)
 
 
 # ---------------------------------------------------------------------------
@@ -67,20 +98,26 @@ class UploadResponse(BaseModel):
 # ---------------------------------------------------------------------------
 
 @router.post("/upload", response_model=UploadResponse)
-async def upload_pdf(file: UploadFile = File(...)):
+async def upload_pdf(conversation_id: str = Form(...), file: UploadFile = File(...)):
     """Upload and process a PDF document.
 
     Flow: Upload → Validate → Extract → Clean → Chunk → Embed → Store in ChromaDB
     """
     request_id = get_request_id()
     logger.info(
-        "Upload request received: file=%s content_type=%s request_id=%s",
+        "Upload request received: file=%s content_type=%s conversation_id=%s request_id=%s",
         file.filename,
         file.content_type,
+        conversation_id,
         request_id,
     )
 
     metrics.total_uploads += 1
+
+    # --- Validate conversation_id ---
+    if not conversation_id:
+        metrics.failed_uploads += 1
+        raise HTTPException(status_code=400, detail="conversation_id is required.")
 
     # --- Validate file ---
     if not file.filename:
@@ -116,7 +153,7 @@ async def upload_pdf(file: UploadFile = File(...)):
 
     # --- Process PDF ---
     try:
-        chunks = _pdf_processor.process(str(file_path), file.filename)
+        chunks = _pdf_processor.process(str(file_path), file.filename, conversation_id)
     except PDFProcessingError as exc:
         metrics.failed_uploads += 1
         logger.warning("PDF processing failed: %s", exc)
@@ -154,10 +191,12 @@ async def upload_pdf(file: UploadFile = File(...)):
 
     metrics.successful_uploads += 1
     logger.info(
-        "Upload complete: file=%s pages=%d chunks=%d",
+        "Upload complete: file=%s pages=%d chunks=%d conversation_id=%s doc_id=%s",
         file.filename,
         len(page_numbers),
         len(chunks),
+        conversation_id,
+        chunks[0].doc_id if chunks else "unknown",
     )
 
     return UploadResponse(
@@ -165,6 +204,7 @@ async def upload_pdf(file: UploadFile = File(...)):
         file_name=file.filename,
         num_pages=len(page_numbers),
         num_chunks=len(chunks),
+        conversation_id=conversation_id,
     )
 
 
@@ -177,7 +217,7 @@ async def ask_question(request: AskRequest):
     """Ask a question about uploaded documents.
 
     Returns a Server-Sent Events stream with:
-    - event: token  — Individual text chunks as Gemini generates them
+    - event: token  — Individual text chunks as Groq generates them
     - event: done   — Final complete answer with citations and conversation_id
     - event: error  — Error information if something fails
     """
@@ -192,8 +232,8 @@ async def ask_question(request: AskRequest):
     # --- Conversation setup ---
     conversation_id = request.conversation_id
     if not conversation_id:
-        conversation_id = _conversation_history.create_conversation()
-        logger.info("Created new conversation=%s", conversation_id)
+        metrics.failed_queries += 1
+        raise HTTPException(status_code=400, detail="conversation_id is required.")
 
     logger.info(
         "Ask request: question='%s' conversation_id=%s request_id=%s",
@@ -219,15 +259,15 @@ async def ask_question(request: AskRequest):
 
     # --- Retrieve relevant chunks ---
     try:
-        retrieved_chunks = _retriever.retrieve(question)
+        retrieved_chunks = _retriever.retrieve(question, conversation_id)
     except Exception as exc:
         metrics.failed_queries += 1
-        logger.error("Retrieval failed: %s", exc)
+        logger.error("Retrieval failed: conversation_id=%s error=%s", conversation_id, exc)
         raise HTTPException(
             status_code=500, detail="Failed to retrieve relevant documents."
         ) from exc
 
-    logger.info("Retrieved %d chunks for question", len(retrieved_chunks))
+    logger.info("Retrieved %d chunks for question conversation_id=%s", len(retrieved_chunks), conversation_id)
 
     # --- Build context and prompt ---
     context_for_prompt = [
@@ -249,13 +289,20 @@ async def ask_question(request: AskRequest):
     citations = []
     seen_citations = set()
     for chunk in retrieved_chunks:
-        key = (chunk.file_name, chunk.page_number)
+        key = (chunk.file_name, chunk.page_number, chunk.chunk_id)
         if key not in seen_citations:
             seen_citations.add(key)
             citations.append({
                 "file_name": chunk.file_name,
                 "page_number": chunk.page_number,
+                "chunk_id": chunk.chunk_id,
             })
+    
+    logger.info(
+        "Built %d unique citations from retrieved chunks conversation_id=%s",
+        len(citations),
+        conversation_id,
+    )
 
     # --- Stream response ---
     async def event_stream():
@@ -264,7 +311,7 @@ async def ask_question(request: AskRequest):
         stream_start = time.perf_counter()
 
         try:
-            async for text_chunk in _gemini_client.generate_stream(prompt):
+            async for text_chunk in _groq_client.generate_stream(prompt):
                 full_answer.append(text_chunk)
                 event_data = json.dumps({"text": text_chunk})
                 yield f"event: token\ndata: {event_data}\n\n"
@@ -302,7 +349,7 @@ async def ask_question(request: AskRequest):
 
             metrics.successful_queries += 1
 
-        except GeminiError as exc:
+        except GroqError as exc:
             metrics.failed_queries += 1
             logger.error("Streaming error: %s", exc)
             error_data = json.dumps({"error": str(exc)})
@@ -340,7 +387,7 @@ async def health_check():
         "status": "healthy",
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
         "embedding_model": settings.EMBEDDING_MODEL,
-        "gemini_model": settings.GEMINI_MODEL,
+        "llm_model": settings.GROQ_MODEL,
         "chromadb": chroma_status,
         "metrics": metrics.get_summary(),
     }

@@ -12,14 +12,14 @@ from pydantic import Field
 class Settings(BaseSettings):
     """Central application settings loaded from environment variables / .env file."""
 
-    # --- Gemini LLM ---
-    GEMINI_API_KEY: str = Field(
+    # --- Groq LLM ---
+    GROQ_API_KEY: str = Field(
         ...,
-        description="Google Gemini API key (required)",
+        description="Groq API key (required)",
     )
-    GEMINI_MODEL: str = Field(
-        default="gemini-2.0-flash",
-        description="Gemini model name for generation",
+    GROQ_MODEL: str = Field(
+        default="openai/gpt-oss-120b",
+        description="Groq model name for generation",
     )
 
     # --- Embedding ---

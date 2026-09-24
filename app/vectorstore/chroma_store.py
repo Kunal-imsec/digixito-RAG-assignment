@@ -25,6 +25,8 @@ class RetrievedChunk:
     file_name: str
     page_number: int
     chunk_id: str
+    conversation_id: str
+    doc_id: str
     distance: float
 
 
@@ -96,6 +98,8 @@ class ChromaStore:
                 "file_name": chunk.file_name,
                 "page_number": chunk.page_number,
                 "chunk_id": chunk.chunk_id,
+                "conversation_id": chunk.conversation_id,
+                "doc_id": chunk.doc_id,
             }
             for chunk in chunks
         ]
@@ -122,12 +126,14 @@ class ChromaStore:
     def query(
         self,
         query_embedding: list[float],
+        conversation_id: str,
         top_k: int | None = None,
     ) -> list[RetrievedChunk]:
         """Query the collection for semantically similar chunks.
 
         Args:
             query_embedding: The query's embedding vector.
+            conversation_id: The conversation ID to filter results by.
             top_k: Number of results to return.
 
         Returns:
@@ -138,6 +144,7 @@ class ChromaStore:
         results = self.collection.query(
             query_embeddings=[query_embedding],
             n_results=k,
+            where={"conversation_id": conversation_id},
             include=["documents", "metadatas", "distances"],
         )
 
@@ -155,16 +162,30 @@ class ChromaStore:
                         file_name=meta["file_name"],
                         page_number=meta["page_number"],
                         chunk_id=meta["chunk_id"],
+                        conversation_id=meta["conversation_id"],
+                        doc_id=meta["doc_id"],
                         distance=dist,
                     )
                 )
 
         logger.info(
-            "Retrieved %d chunks (top_k=%d, collection_size=%d)",
+            "Retrieved %d chunks (top_k=%d, conversation_id=%s, collection_size=%d)",
             len(retrieved),
             k,
+            conversation_id,
             self.collection.count(),
         )
+        
+        # Log retrieved chunk metadata for debugging
+        for chunk in retrieved:
+            logger.info(
+                "Retrieved chunk: conversation_id=%s file_name=%s page=%d chunk_id=%s",
+                chunk.conversation_id,
+                chunk.file_name,
+                chunk.page_number,
+                chunk.chunk_id,
+            )
+        
         return retrieved
 
     def get_status(self) -> dict:

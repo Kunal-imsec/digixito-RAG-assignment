@@ -1,0 +1,13 @@
+question,expected_answer,retrieved_answer,source,correct
+What year was Acme Systems founded?,2018,,"rag_test_document.pdf, page 1",
+What programming language does the engineering team use?,Python,,"rag_test_document.pdf, page 1",
+Which API framework is mentioned?,FastAPI,,"rag_test_document.pdf, page 1",
+How many documents did the service handle in 2025?,1.2 million,,"rag_test_document.pdf, page 1",
+What was the average processing time per document?,2.4 seconds,,"rag_test_document.pdf, page 1",
+How are API keys stored?,In environment variables,,"rag_test_document.pdf, page 2",
+How many engineers were hired in 2025?,14,,"rag_test_document.pdf, page 2",
+How long is the new-engineer onboarding program?,Four weeks,,"rag_test_document.pdf, page 2",
+What does the backend team own?,API development and document ingestion,,"rag_test_document.pdf, page 1",
+What is the capital of France?,insufficient information,,N/A,
+What database does the company use for customer billing?,insufficient information,,N/A,
+What GPU model is used by the engineering team?,insufficient information,,N/A,

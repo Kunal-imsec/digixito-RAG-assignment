@@ -1,0 +1,16 @@
+{
+  "conversation_id": "980972d762f9489d83271f3e9e1c4e0c",
+  "created_at": "2026-09-24T08:32:24.363106+00:00",
+  "messages": [
+    {
+      "role": "user",
+      "content": "When was Acme founded?",
+      "timestamp": "2026-09-24T08:32:31.766482+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "insufficient information",
+      "timestamp": "2026-09-24T08:32:32.765797+00:00"
+    }
+  ]
+}

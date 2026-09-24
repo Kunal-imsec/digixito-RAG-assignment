@@ -1,5 +1,5 @@
 """
-Grounded prompt templates for Gemini.
+Grounded prompt templates for LLM.
 
 Constructs prompts that explicitly instruct the LLM to:
 - Answer ONLY from supplied document context
@@ -27,7 +27,7 @@ def build_grounded_prompt(
     context_chunks: list[dict],
     conversation_history: list[dict] | None = None,
 ) -> str:
-    """Build a grounded prompt for Gemini.
+    """Build a grounded prompt for the LLM.
 
     Args:
         question: The user's current question.

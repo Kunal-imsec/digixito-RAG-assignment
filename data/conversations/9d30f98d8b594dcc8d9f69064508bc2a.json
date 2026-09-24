@@ -1,0 +1,422 @@
+{
+  "conversation_id": "9d30f98d8b594dcc8d9f69064508bc2a",
+  "created_at": "2026-09-24T08:32:37.059927+00:00",
+  "messages": [
+    {
+      "role": "user",
+      "content": "What is the main topic of the document?",
+      "timestamp": "2026-09-24T08:41:23.944960+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "The document is an engineering handbook for Acme Systems, titled \u201cRAG Test Document\u202f\u2014\u202fEngineering Handbook.\u201d\u3010rag_test_document.pdf, page\u202f1\u3011",
+      "timestamp": "2026-09-24T08:41:24.757929+00:00",
+      "citations": [
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 1,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_1_chunk_1"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 1,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_1_chunk_0"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 2,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_2_chunk_0"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 2,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_2_chunk_1"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": "What year was the company founded?",
+      "timestamp": "2026-09-24T08:43:26.415440+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "Acme Systems was founded in\u202f2018\u3010rag_test_document.pdf, page\u202f1\u3011",
+      "timestamp": "2026-09-24T08:43:26.975713+00:00",
+      "citations": [
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 1,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_1_chunk_0"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 2,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_2_chunk_0"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 1,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_1_chunk_1"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 2,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_2_chunk_1"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": "What is the total revenue mentioned in the report?",
+      "timestamp": "2026-09-24T08:44:00.800745+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "insufficient information",
+      "timestamp": "2026-09-24T08:44:01.488827+00:00",
+      "citations": [
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 1,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_1_chunk_1"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 1,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_1_chunk_0"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 2,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_2_chunk_1"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 2,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_2_chunk_0"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": "who is the ceo of the company?",
+      "timestamp": "2026-09-24T08:46:22.217968+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "insufficient information",
+      "timestamp": "2026-09-24T08:46:22.846017+00:00",
+      "citations": [
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 2,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_2_chunk_1"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 1,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_1_chunk_0"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 2,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_2_chunk_0"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 1,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_1_chunk_1"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": "What are the key risk factors mentioned?",
+      "timestamp": "2026-09-24T08:48:26.606003+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "insufficient information",
+      "timestamp": "2026-09-24T08:48:27.375861+00:00",
+      "citations": [
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 2,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_2_chunk_0"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 2,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_2_chunk_1"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 1,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_1_chunk_0"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 1,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_1_chunk_1"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": "What was the revenue in the previous year",
+      "timestamp": "2026-09-24T08:49:48.563673+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "insufficient information",
+      "timestamp": "2026-09-24T08:49:49.159391+00:00",
+      "citations": [
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 2,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_2_chunk_1"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 1,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_1_chunk_1"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 1,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_1_chunk_0"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 2,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_2_chunk_0"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": "How does that compare to this year?",
+      "timestamp": "2026-09-24T08:50:52.043487+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "insufficient information",
+      "timestamp": "2026-09-24T08:50:52.759826+00:00",
+      "citations": [
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 1,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_1_chunk_0"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 1,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_1_chunk_1"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 2,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_2_chunk_1"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 2,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_2_chunk_0"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": "Which technology stack does the engineering team use?",
+      "timestamp": "2026-09-24T08:53:18.895542+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "The engineering team uses **Python, FastAPI, PostgreSQL, and containerized development workflows**\u3010rag_test_document.pdf, page 1\u3011.",
+      "timestamp": "2026-09-24T08:53:19.656535+00:00",
+      "citations": [
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 2,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_2_chunk_0"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 1,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_1_chunk_0"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 1,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_1_chunk_1"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 2,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_2_chunk_1"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": "Which team owns API development and document ingestion?",
+      "timestamp": "2026-09-24T08:58:15.634818+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "The backend team owns API development and document ingestion\u3010rag_test_document.pdf, page 1\u3011.",
+      "timestamp": "2026-09-24T08:58:16.334114+00:00",
+      "citations": [
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 2,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_2_chunk_0"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 1,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_1_chunk_0"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 1,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_1_chunk_1"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 2,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_2_chunk_1"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": "How many documents were processed in 2025?",
+      "timestamp": "2026-09-24T08:59:03.078088+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "In 2025, the document processing service handled **1.2\u202fmillion documents**\u3010rag_test_document.pdf, page 1\u3011.",
+      "timestamp": "2026-09-24T08:59:03.763182+00:00",
+      "citations": [
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 1,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_1_chunk_1"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 1,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_1_chunk_0"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 2,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_2_chunk_0"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 2,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_2_chunk_1"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": "What was the average document processing time in 2025?",
+      "timestamp": "2026-09-24T08:59:37.394999+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "The average document processing time in\u202f2025 was **2.4\u202fseconds per document**\u3010rag_test_document.pdf, page 1\u3011.",
+      "timestamp": "2026-09-24T08:59:38.043912+00:00",
+      "citations": [
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 1,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_1_chunk_1"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 1,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_1_chunk_0"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 2,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_2_chunk_0"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 2,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_2_chunk_1"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": "How many engineers were hired in 2025?",
+      "timestamp": "2026-09-24T09:00:08.774897+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "The company hired **14 engineers** in 2025\u3010rag_test_document.pdf, page 2\u3011.",
+      "timestamp": "2026-09-24T09:00:09.699173+00:00",
+      "citations": [
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 2,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_2_chunk_0"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 1,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_1_chunk_0"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 1,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_1_chunk_1"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 2,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_2_chunk_1"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": "How long is the onboarding program?",
+      "timestamp": "2026-09-24T09:00:37.961553+00:00"
+    },
+    {
+      "role": "assistant",
+      "content": "The onboarding program lasts four weeks\u3010rag_test_document.pdf, page\u202f2\u3011.",
+      "timestamp": "2026-09-24T09:00:38.694737+00:00",
+      "citations": [
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 2,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_2_chunk_0"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 1,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_1_chunk_1"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 1,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_1_chunk_0"
+        },
+        {
+          "file_name": "rag_test_document.pdf",
+          "page_number": 2,
+          "chunk_id": "8db8db094c1d4aae9036db07d0fef244_page_2_chunk_1"
+        }
+      ]
+    }
+  ]
+}
